@@ -1,11 +1,13 @@
 
 
-#define USE_STDPERIPH_DRIVER
+//#define USE_STDPERIPH_DRIVER
 #include "stm32f4xx.h"
-#include <hal/gpio_interface.hpp>
+/*#include <hal/gpio_interface.hpp>
 #include <hal/pin_interface.hpp>
-#include <hal/macros_define.hpp>
-
+#include <hal/macros_define.hpp>*/
+#include "init.h"
+#include "platform.h"
+/*
   struct GPIO:HAL::GPIO_DriverInterface<u8> {//u8 -> 1 octect car 8 pins par port
     using Parent = GPIO_DriverInterface<u8>;
 
@@ -72,11 +74,15 @@ void ms_delay(int ms)
    }
 }
 
+*/
 
 //Flash orange LED at about 1hz
 int main(void)
 {
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;  // enable the clock to GPIOD
+
+
+
+/*    RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;  // enable the clock to GPIOD
     __asm("dsb");                         // stall instruction pipeline, until instruction completes, as
                                           //    per Errata 2.1.13, "Delay after an RCC peripheral clock enabling"
 
@@ -84,7 +90,9 @@ GPIO::Settings s;
 s.mode=GPIO::Mode::OUTPUT;
 
 PIN::init(3,12,s);
-PIN::init(3,13,s);
+PIN::init(3,13,s);*/
+
+init_lidar();
     //GPIOD->MODER = (1 << 24);             // set pin 12 (ie LD4 green) to be general purpose output
     /*GPIOD->MODER = GPIOD->MODER & (1 << 26); 
             // set pin 13 (ie LD3 orange) to be general purpose output
@@ -92,12 +100,15 @@ PIN::init(3,13,s);
     GPIOD->MODER = GPIOD->MODER &(1 << 30);             // set pin 15 (ie LD6 blue) to be general purpose output*/
 
     for (;;) {
-       ms_delay(500);//avant 500
+ USART_SendData(USART1, 'b');
+ while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+
+      /* ms_delay(500);//avant 500
        GPIOD->ODR ^= (1 << 12);  
 ms_delay(500);//avant 500
        GPIOD->ODR ^= (1 << 13); 
 ms_delay(500);//avant 500
-
+*/
          // Toggle the pin 
 /*
        ms_delay(500);//avant 500

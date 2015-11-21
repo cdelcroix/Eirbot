@@ -2,30 +2,37 @@
 # Put your stlink folder here so make burn will work.
 STLINK=~/stlink#avant .git
 
-# Put your source files here (or *.c, etc)
-SRCS=main.c system_stm32f4xx.c
 
 # Binaries will be generated with this name (.elf, .bin, .hex, etc)
 PROJ_NAME=blinky
 
 # Put your STM32F4 library code directory here
 STM_COMMON=../STM32F4-Discovery_FW_V1.1.0
+STM_DRIVERS=$(STM_COMMON)/Libraries/STM32F4xx_StdPeriph_Driver/src
+
+
+# Put your source files here (or *.c, etc)
+SRCS=main.c system_stm32f4xx.c init.c interrupt.c platform.c 
+
 
 # Normally you shouldn't need to change anything below this line!
 #######################################################################################
 
-CC=arm-none-eabi-g++#gcc
+CC=arm-none-eabi-gcc#gcc
 OBJCOPY=arm-none-eabi-objcopy
 
-CFLAGS  = -g -O2 -Wall -Tstm32_flash.ld -std=c++11#-g -O2 -Wall -Tstm32_flash.ld 
+CFLAGS  = -g -O2 -Wall -Tstm32_flash.ld #-std=c++11
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS += -I. -Iinclude#-I.
+CFLAGS += -DUSE_STDPERIPH_DRIVER
 
 # Include files from STM libraries
 CFLAGS += -I$(STM_COMMON)/Utilities/STM32F4-Discovery
 CFLAGS += -I$(STM_COMMON)/Libraries/CMSIS/Include -I$(STM_COMMON)/Libraries/CMSIS/ST/STM32F4xx/Include
 CFLAGS += -I$(STM_COMMON)/Libraries/STM32F4xx_StdPeriph_Driver/inc
+
+SRCS += $(STM_DRIVERS)/stm32f4xx_gpio.c $(STM_DRIVERS)/stm32f4xx_rcc.c $(STM_DRIVERS)/stm32f4xx_tim.c $(STM_DRIVERS)/stm32f4xx_usart.c $(STM_DRIVERS)/misc.c
 
 # add startup file to build
 SRCS += $(STM_COMMON)/Libraries/CMSIS/ST/STM32F4xx/Source/Templates/TrueSTUDIO/startup_stm32f4xx.s 
