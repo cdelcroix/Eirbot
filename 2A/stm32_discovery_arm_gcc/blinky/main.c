@@ -100,8 +100,8 @@ init_lidar();
     GPIOD->MODER = GPIOD->MODER &(1 << 30);             // set pin 15 (ie LD6 blue) to be general purpose output*/
 
     for (;;) {
- USART_SendData(USART1, 'b');
- while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+// USART_SendData(USART1, 'b');
+ //while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
 
       /* ms_delay(500);//avant 500
        GPIOD->ODR ^= (1 << 12);  

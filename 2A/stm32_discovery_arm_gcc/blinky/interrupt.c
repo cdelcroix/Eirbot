@@ -22,18 +22,20 @@
 		TIM_ClearFlag(TIM8, TIM_FLAG_Update);
 	}
 }
-
+*/
 void USART1_IRQHandler(void) {
 	//verifie le flag d'interruption
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
 
-		platform_led_toggle(PLATFORM_LED6);
+ USART_SendData(USART1, USART_ReceiveData(USART1));
+ while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+		//platform_led_toggle(PLATFORM_LED6);
 
 		//compulse the value received
-		ausbee_lidar_push_char(USART_ReceiveData(USART1));
+		//ausbee_lidar_push_char(USART_ReceiveData(USART1));
 
 
 	}
 
 }
-*/
+

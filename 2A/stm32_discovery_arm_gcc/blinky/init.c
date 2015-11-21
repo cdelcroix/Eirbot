@@ -31,7 +31,7 @@ void init_usart1_interrupt()
 void init_lidar()
 {
   platform_usart_init(USART1, 115200);
-  //init_usart1_interrupt();
+  init_usart1_interrupt();
 
 
   /*USART1ReceiveHandle=xSemaphoreCreateMutex();
