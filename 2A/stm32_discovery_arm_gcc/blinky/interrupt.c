@@ -5,6 +5,7 @@
 #include "stm32f4xx_conf.h"
 
 #include "platform.h"
+#include <AUSBEE/lidar.h>
 
 //#include <lidar.h>
 
@@ -27,12 +28,12 @@ void USART1_IRQHandler(void) {
 	//verifie le flag d'interruption
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
 
- USART_SendData(USART2, USART_ReceiveData(USART1));
- while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+ //USART_SendData(USART2, USART_ReceiveData(USART1));
+ //while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
 		//platform_led_toggle(PLATFORM_LED6);
 
 		//compulse the value received
-		//ausbee_lidar_push_char(USART_ReceiveData(USART1));
+		ausbee_lidar_push_char(USART_ReceiveData(USART1));
 
 
 	}

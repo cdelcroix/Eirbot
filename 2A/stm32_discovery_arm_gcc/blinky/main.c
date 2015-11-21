@@ -7,6 +7,8 @@
 #include <hal/macros_define.hpp>*/
 #include "init.h"
 #include "platform.h"
+#include <AUSBEE/lidar.h>
+#include <stdio.h>// pour sprintf ??
 /*
   struct GPIO:HAL::GPIO_DriverInterface<u8> {//u8 -> 1 octect car 8 pins par port
     using Parent = GPIO_DriverInterface<u8>;
@@ -100,7 +102,17 @@ platform_usart_init(USART2,115200);
     GPIOD->MODER = GPIOD->MODER &(1 << 28);             // set pin 14 (ie LD5 red) to be general purpose output
     GPIOD->MODER = GPIOD->MODER &(1 << 30);             // set pin 15 (ie LD6 blue) to be general purpose output*/
 
-    for (;;) {
+for (;;) {
+	int data;
+	for(int j=0;j<360;j++){
+	data=ausbee_lidar_get_distance(j);
+	char str[80];
+	sprintf(str, "%d\n", data);
+		for(int k=0;str[k]!=0;k++){
+		USART_SendData(USART2, str[k] );
+		while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
+		}
+}
  //USART_SendData(USART2, 'z');
  //while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
 
