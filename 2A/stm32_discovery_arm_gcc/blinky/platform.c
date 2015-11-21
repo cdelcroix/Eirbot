@@ -122,17 +122,17 @@ int platform_usart_init(USART_TypeDef *USARTx, uint32_t baudrate) {
 		USART_Cmd(USARTx, ENABLE);
 	} else if (USARTx == USART2) {
 		//enable clock for GPIOA and USART2 devices
-		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
-		//Select AF mode USART2 for pin PA2 and PA3
-		init_GPIO_USART.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
+		//Select AF mode USART2 for pin PD5 and PD6
+		init_GPIO_USART.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6;
 		init_GPIO_USART.GPIO_Speed = GPIO_Speed_50MHz;
 		init_GPIO_USART.GPIO_Mode = GPIO_Mode_AF;
-		GPIO_Init(GPIOB, &init_GPIO_USART);
+		GPIO_Init(GPIOD, &init_GPIO_USART);
 
-		GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);
-		GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);
+		GPIO_PinAFConfig(GPIOD, GPIO_PinSource5, GPIO_AF_USART2);
+		GPIO_PinAFConfig(GPIOD, GPIO_PinSource6, GPIO_AF_USART2);
 
 		//Init USART2
 		init_USART.USART_BaudRate = baudrate;
@@ -141,7 +141,7 @@ int platform_usart_init(USART_TypeDef *USARTx, uint32_t baudrate) {
 
 		USART_Cmd(USARTx, ENABLE);
 	} else if (USARTx == USART1) {
-		//enable clock for GPIOA and USART2 devices
+		//enable clock for GPIOA and USART1 devices
 		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 

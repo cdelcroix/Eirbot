@@ -93,6 +93,7 @@ PIN::init(3,12,s);
 PIN::init(3,13,s);*/
 
 init_lidar();
+platform_usart_init(USART2,115200);
     //GPIOD->MODER = (1 << 24);             // set pin 12 (ie LD4 green) to be general purpose output
     /*GPIOD->MODER = GPIOD->MODER & (1 << 26); 
             // set pin 13 (ie LD3 orange) to be general purpose output
@@ -100,8 +101,8 @@ init_lidar();
     GPIOD->MODER = GPIOD->MODER &(1 << 30);             // set pin 15 (ie LD6 blue) to be general purpose output*/
 
     for (;;) {
-// USART_SendData(USART1, 'b');
- //while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+ //USART_SendData(USART2, 'z');
+ //while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
 
       /* ms_delay(500);//avant 500
        GPIOD->ODR ^= (1 << 12);  

@@ -27,7 +27,7 @@ void USART1_IRQHandler(void) {
 	//verifie le flag d'interruption
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
 
- USART_SendData(USART1, USART_ReceiveData(USART1));
+ USART_SendData(USART2, USART_ReceiveData(USART1));
  while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
 		//platform_led_toggle(PLATFORM_LED6);
 
