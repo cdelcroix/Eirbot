@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdint.h>
+#include <termios.h>
 
 #define AUSBEE_LIDAR_PICCOLO_FRAME_LENGTH 22
 #define AUSBEE_LIDAR_PICCOLO_DATA_LENGTH 4
@@ -129,7 +130,13 @@ int main(){
 	unsigned char tmp;
 	int donnee;
 
+	  struct termios tios;
+
 	int fd=open("/dev/ttyACM0", O_RDWR);
+	tcgetattr(fd, &tios);
+	cfsetispeed(&tios, B115200);
+	cfsetospeed(&tios, B115200);
+	
 	if(fd < 0){
 		printf("%s\n", strerror(errno));
 		return 0;
@@ -142,8 +149,13 @@ int main(){
 		for(int i=0;i<360;i++)
 		{
 			donnee=ausbee_lidar_get_distance(i);
-			printf("%d : %d\n", i, donnee);
+			printf("%d %d\n", i, donnee);
 		}
+	puts("Baudrate");
+	  speed_t ispeed = cfgetispeed(&tios);
+	  speed_t ospeed = cfgetospeed(&tios);
+	  printf("baud rate in: 0%o\n", ispeed);
+	  printf("baud rate out: 0%o\n", ospeed);
 
 		
 	}
